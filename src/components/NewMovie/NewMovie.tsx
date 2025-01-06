@@ -11,7 +11,7 @@ type Props = {
   }) => void;
 };
 
-export const NewMovie: React.FC<Props> = props => {
+export const NewMovie: React.FC<Props> = ({ onAdd }) => {
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -19,15 +19,19 @@ export const NewMovie: React.FC<Props> = props => {
   const [imdbUrl, setImdbUrl] = useState('');
   const [imdbId, setImdbId] = useState('');
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  const resetAllState = () => {
     setTitle('');
     setDescription('');
     setImgUrl('');
     setImgUrl('');
     setImdbUrl('');
     setImdbId('');
-    props.onAdd({ title, description, imdbId, imdbUrl, imgUrl });
+  };
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    resetAllState();
+    onAdd({ title, description, imdbId, imdbUrl, imgUrl });
     setCount(prevCount => prevCount + 1);
   }
 
