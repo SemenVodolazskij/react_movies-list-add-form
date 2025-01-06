@@ -12,9 +12,6 @@ type Props = {
 };
 
 export const NewMovie: React.FC<Props> = props => {
-  // Increase the count after successful form submission
-  // to reset touched status of all the `Field`s
-
   const [count, setCount] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -31,7 +28,7 @@ export const NewMovie: React.FC<Props> = props => {
     setImdbUrl('');
     setImdbId('');
     props.onAdd({ title, description, imdbId, imdbUrl, imgUrl });
-    setCount(count + 1);
+    setCount(prevCount => prevCount + 1);
   }
 
   return (
@@ -84,9 +81,10 @@ export const NewMovie: React.FC<Props> = props => {
             data-cy="submit-button"
             className="button is-link"
             disabled={
-              title.trim() && imdbId.trim() && imdbUrl.trim() && imgUrl.trim()
-                ? false
-                : true
+              !title.trim() ||
+              !imdbId.trim() ||
+              !imdbUrl.trim() ||
+              !imgUrl.trim()
             }
           >
             Add
